@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #add {
+            width: 800px;
+            height: 20px;
+            margin: 10px auto;
+            display: block;
+        }
+        #Div0 {
+            width: 900px;
+            min-height: 100px;
+            margin: auto;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div id="Div0"></div>
+<button id="add">Add block</button>
+<script>
+    let colorBlock = {
+        addButton: null,
+        parDiv: null,
+        init: function () {
+            this.setHTMLNodes();
+            this.eventsListener();
+        },
+        setHTMLNodes: function () {
+            this.addButton = document.querySelector('#add');
+            this.parDiv = document.getElementById('Div0');
+        },
+        eventsListener: function () {
+            this.addButton.addEventListener('click', this.addBlock);
+            this.parDiv.addEventListener('click', this.deleteBlock);
+        },
+        addBlock: function () {
+            let newBlock = document.createElement('div');
+            newBlock.style.height = '40px';
+            newBlock.style.width = '90px';
+            newBlock.style.float = 'left';
+            newBlock.style.margin = '5px';
+            newBlock.style.background = `rgb( ${Math.round(255 * Math.random())} ,
+            ${Math.round(255 * Math.random())} , ${Math.round(255 * Math.random())} )`;
+            colorBlock.parDiv.appendChild(newBlock);
+        },
+        deleteBlock: function (e) {
+            if (e.target.parentElement === colorBlock.parDiv) {
+                colorBlock.parDiv.removeChild(e.target);
+            }
+        }
+    };
+    colorBlock.init();
+</script>
+</body>
+</html>
