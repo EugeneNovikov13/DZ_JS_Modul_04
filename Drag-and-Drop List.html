@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+  <style>
+    body{
+	  position: relative;
+	}
+    .item, .phantom {
+	  height: 30px;
+	  width:  300px;
+	}
+	.phantom{
+	  position: absolute;
+	}
+  </style>
+</head>
+<body>
+  <ol id='list'>
+  <li class='item' style='background-color:gold' >text 1</li>
+  <li class='item' style='background-color:red'  >text 2</li>
+  <li class='item' style='background-color:green'>text 3</li>
+  <li class='item' style='background-color:blue' >text 4</li>
+  </ol>
+  <script>
+    let draggedElement = false;
+    let phantomElement = false;
+    let listSel = document.querySelector('#list');
+
+    document.onmousedown = function(e){
+		e.preventDefault();
+        const clickedElement = document.elementFromPoint(e.clientX, e.clientY);
+        if(clickedElement.className.indexOf('item') > -1){
+            clickedElement.style.opacity = '0.5';
+            draggedElement  =  clickedElement;
+        }
+    }
+	
+    document.onmousemove = function(e){
+        if(draggedElement){
+            if(!phantomElement){
+                phantomElement = document.createElement('div');
+                phantomElement.style.backgroundColor = draggedElement.style.backgroundColor;
+                phantomElement.style.left = e.pageX-draggedElement.offsetWidth/2 + 'px';
+                phantomElement.style.top = e.pageY-draggedElement.offsetHeight + 'px';
+                phantomElement.className = "phantom";
+                document.body.appendChild(phantomElement);
+            }
+            else{
+                phantomElement.style.left = e.pageX-phantomElement.offsetWidth/2 + 'px';
+                phantomElement.style.top  = e.pageY-phantomElement.offsetHeight + 'px';
+
+                phantomElement.style.zIndex = '-1';
+                const lowerElement = document.elementFromPoint(e.clientX, e.clientY);
+                phantomElement.style.zIndex = '1';
+
+                if(lowerElement != null
+				&& lowerElement !== draggedElement
+				&& lowerElement.className.indexOf('item') > -1){
+                    if(lowerElement === listSel.lastChild
+					&& e.pageY > (lowerElement.offsetTop + lowerElement.offsetHeight)){
+                            console.log('ok');
+                            listSel.removeChild(draggedElement);
+                            listSel.appendChild(draggedElement);
+					}
+					else{
+						if(e.pageY > (lowerElement.offsetTop + lowerElement.offsetHeight)){
+							if(lowerElement.previousSibling === draggedElement){
+							  listSel.removeChild(draggedElement);
+							  listSel.insertBefore(draggedElement,lowerElement.nextSibling);
+							}
+						}
+						else {
+						  listSel.removeChild(draggedElement);
+						  listSel.insertBefore(draggedElement,lowerElement);
+						}
+					}
+                }
+            }
+        }
+    }
+
+    document.onmouseup = function(e){
+      if(draggedElement){
+        draggedElement.style.opacity = '1';
+        draggedElement = false;
+      }
+      if(phantomElement){
+        document.body.removeChild(phantomElement);
+        phantomElement = false;
+      }
+    }
+  </script>
+</body>
+</html>
