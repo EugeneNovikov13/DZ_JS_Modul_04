@@ -44,13 +44,12 @@
     <input type="text" id="nameInp"><br>
     <label for="comInp">Comment:</label><br>
     <textarea id="comInp"></textarea>
-    <input type="submit" id="sub" value="Add comment">
+    <input type="button" id="sub" value="Add comment">
 </form>
 <script>
     let date = new Date();
     let but = document.getElementById('sub');
-    but.addEventListener('click', function (e) {
-        e.preventDefault();
+    but.addEventListener('click', function () {
         let name = document.querySelector('#nameInp').value;
         let txt = document.querySelector('#comInp').value;
         let com = document.getElementById('comments');
