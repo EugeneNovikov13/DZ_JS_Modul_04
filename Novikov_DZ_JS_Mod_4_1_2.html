@@ -53,7 +53,7 @@
     rightArrow.addEventListener('click', function () {
         imgContainer.style.backgroundImage = 'url(' + imagesArr[indexJPG + 1].src + ')';
         indexJPG++;
-        if (indexJPG === 4) rightArrow.style.opacity = '50%';
+        if (indexJPG === imagesArr.length-1) rightArrow.style.opacity = '50%';
         else leftArrow.style.opacity = '100%';
     })
     leftArrow.addEventListener('click', function () {
