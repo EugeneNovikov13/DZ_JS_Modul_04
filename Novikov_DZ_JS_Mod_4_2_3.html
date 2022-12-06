@@ -54,7 +54,7 @@
         let txt = document.querySelector('#comInp').value;
         let com = document.getElementById('comments');
         let comDiv = document.createElement('div');
-        let d = date.toLocaleDateString() + date.toLocaleTimeString()
+        let d = date.toLocaleDateString() + ', ' + date.toLocaleTimeString();
         comDiv.innerHTML = '<h4>' + name + '</h4>' + d + '<br>' + txt + '<hr>';
         com.appendChild(comDiv);
         document.querySelector('#nameInp').value = '';
